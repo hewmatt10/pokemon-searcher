@@ -1,25 +1,58 @@
+import { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import SearchBox from './components/search-box/search-box.component'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor() {
+    super();
+    this.state = {
+      pokemon: [
+
+      ],
+      searchField: ''
+    }
+  }
+  async componentDidMount() {
+    let fetchedPokemon = await fetch('https://pokeapi.co/api/v2/pokemon-species/?offset=0&limit=151');
+    fetchedPokemon = await fetchedPokemon.json();
+    fetchedPokemon = fetchedPokemon.results;
+    for(let i = 0; i < fetchedPokemon.length; i++){
+      fetchedPokemon[i].id = i;
+    }
+    console.log(fetchedPokemon);
+    this.setState({
+      pokemon: fetchedPokemon,
+    })
+    
+  }
+  onSearch = (event) => {
+    const searchField = event.target.value.toLocaleLowerCase();
+    this.setState({
+      searchField,
+    })
+  }
+
+  render() {
+    const {pokemon, searchField} = this.state;
+    const {onSearch} = this;
+    const filteredPokemon = pokemon.filter((pokemon) => {
+      return pokemon.name.toLocaleLowerCase().includes(searchField);
+    })
+    return (
+      <div className="App">
+      <h1 className='app-title'>Pokemon Searcher</h1>
+      <SearchBox handleChange={onSearch}/>
+      <div className='card-list'>
+        {filteredPokemon.map((pokemon) => {
+          return (
+            <h1 key={pokemon.id}>{pokemon.name}</h1>
+          )
+        })}
+      </div>
+      </div>
+    );
+  }
 }
 
 export default App;
