@@ -1,7 +1,7 @@
 import { Component } from "react";
-import './card-container.styles.css'
+import './card.styles.css'
 
-class CardContainer extends Component {
+class Card extends Component {
 
     render () {
         const {name, id} = this.props.pokemon;
@@ -15,4 +15,4 @@ class CardContainer extends Component {
     }
 }
 
-export default CardContainer;
+export default Card;

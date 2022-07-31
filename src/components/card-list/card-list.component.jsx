@@ -1,5 +1,5 @@
 import { Component } from "react";
-import CardContainer from "../card-container/card-container.component";
+import Card from "../card/card.component";
 import './card-list.styles.css'
 
 class CardList extends Component {
@@ -8,7 +8,7 @@ class CardList extends Component {
         return (
             <div className='card-list'>
                 {pokemons.map((pokemon) => {
-                    return (<CardContainer pokemon={pokemon} key={pokemon.id}/>)
+                    return (<Card pokemon={pokemon} key={pokemon.id}/>)
                 })}
             </div>
         )
