@@ -1,4 +1,5 @@
 import {Component} from 'react'
+import './search-box.styles.css'
 
 class SearchBox extends Component {
     render() {
@@ -8,7 +9,6 @@ class SearchBox extends Component {
             type='search' 
             placeholder='Search Pokemon' 
             onChange={this.props.handleChange}/>
-            
         )
     }
 }

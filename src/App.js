@@ -15,17 +15,28 @@ class App extends Component {
     }
   }
   async componentDidMount() {
-    let fetchedPokemon = await fetch('https://pokeapi.co/api/v2/pokemon-species/?offset=0&limit=151');
+    let fetchedPokemon = await fetch('https://pokeapi.co/api/v2/pokemon-species/?offset=0&limit=898');
     fetchedPokemon = await fetchedPokemon.json();
     fetchedPokemon = fetchedPokemon.results;
     for(let i = 0; i < fetchedPokemon.length; i++){
-      fetchedPokemon[i].id = i;
+      fetchedPokemon[i].id = i+1;
+      let name = fetchedPokemon[i].name
+      name = name.charAt(0).toUpperCase() + name.slice(1);
+      if (name.includes('n-m')) {
+        name = name.replace('-m', '♂'); // Nidoran♂ Case
+      }
+      else if(name.includes('n-f')) {
+        name = name.replace('-f', '♀'); // Nidoran♀ Case
+      }
+      else if(name.includes('-m')) {
+        name = name.replace('-m', '. M'); // Mr. Mime Case
+      }
+      fetchedPokemon[i].name = name;
     }
-    console.log(fetchedPokemon);
+    console.log(fetchedPokemon)
     this.setState({
       pokemon: fetchedPokemon,
     })
-    
   }
   onSearch = (event) => {
     const searchField = event.target.value.toLocaleLowerCase();
